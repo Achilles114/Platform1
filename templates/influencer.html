@@ -1,0 +1,107 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+{% if user.flagged %}
+    <div class="alert alert-warning" role="alert">
+        You are flagged. Please Comply to the rules of Platform.
+    </div>
+{% endif %}
+<a href="{{ url_for('profile') }}" class="btn btn-primary">My Profile</a>
+<form class="d-flex search" role="search" method="GET" action="{{ url_for('search_influencer') }}">
+    <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="search"
+    {% if query %}
+        value="{{ query }}"
+    {% endif %}
+    >
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
+<hr>
+<h2>Advertisement Requests</h2>
+{% if ad_request %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Campaign Name</th>
+                <th>Advertisement Name</th>
+                <th>Budget</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ad in ad_request %}
+            
+            <tr>
+                <td>{{ ad.advertisment.campaign.name }}</td>
+                <td>{{ ad.advertisment.name }}</td>
+                <td>{{ad.advertisment.budget}}</td>
+                <td>{{ 'Accepted' if ad.status else ('Rejected' if ad.status == False else 'Pending') }}</td>
+                <td>
+                    {% if ad.status is none %}
+                        <form action="{{ url_for('accept_request', request_id=ad.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-success">Accept</button>
+                        </form>
+                        <form action="{{ url_for('reject_request', request_id=ad.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Reject</button>
+                        </form>
+                        <form action="{{url_for('negotiate',request_id=ad.id)}}" method="GET" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Negotiate</button>
+                        </form>
+                    {% elif ad.status==True %}
+                        <button class="btn btn-success" disabled>Accepted</button>
+                    {% elif ad.status==False %}
+                        <button class="btn btn-danger" disabled>Rejected</button>
+                    
+                </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No advertisement requests received.</p>
+{% endif %}
+<hr>
+<h2>Ongoing Campaigns</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Campaign Name</th>
+            <th>Advertisment Name</th>
+            <th>Description</th>
+            <th>Budget</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ad in advertisment  %}
+            {% if ad.campaign.visibility=='public' %}
+            
+            <tr>
+                <td>{{ad.campaign.name}}</td>
+                
+                <td>{{ad.name}} </td>
+                <td>{{ad.description}} </td>
+                <td>{{ad.budget}}</td>
+                <td>
+                    <form action="{{ url_for('send_request_sponsor', advertisment_id=ad.id) }}" method="POST">
+                        <input type="hidden" name="sent_to" value="{{ ad.sponsor_id }}">
+                    
+                {% if ad.id not in request_rec %}
+                    <button type="submit" class="btn btn-success">Send</button>
+                {% else %}
+                    <button type="submit" class="btn btn-success" disabled>Send</button>
+                {% endif %}
+                        
+                    </form>
+                    
+                    
+                </td>
+            </tr>
+            {% endif %}
+            
+            
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

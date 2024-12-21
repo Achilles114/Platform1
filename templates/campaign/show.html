@@ -1,0 +1,54 @@
+{% extends 'layout.html'%}
+
+{% block title %}
+Advertisments of {{campaign.name}}
+{% endblock %}
+{% block content %}
+    <h1>Advertisments of {{campaign.name}} </h1>
+    <div class="heading">
+        <h2 class="text-muted"> Advertisments</h2>
+        <h3 class="text-muted">
+            <em> Advertisments of campaign {{campaign.name}} only </em>
+        </h3>
+        <a class="btn btn-success" href="{{url_for('add_advertisment',campaign_id=campaign.id)}}">Add</a>
+        <a class="btn btn-success" href="{{url_for('sponsor')}}">Dashboard</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Advertisment ID</th>
+                <th>Advertisment Name</th>
+                <th>Description</th>
+                <th>Budget</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ad in advertisment %}
+                <tr>
+                    <td>{{ad.id}}</td>
+                    <td>{{ad.name}} </td>
+                    <td>{{ad.description}} </td>
+                    <td>{{ad.budget}}</td>
+                    <td>
+                        <a href="{{url_for('edit_advertisment',advertisment_id=ad.id)}}" class="btn btn-primary">Edit</a>
+                        <a href="{{url_for('show_advertisment',advertisment_id=ad.id)}}" class="btn btn-primary">View</a>
+                        <a href="{{url_for('delete_advertisment',advertisment_id=ad.id)}}" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+{% block style %}
+<style>
+    .heading{
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    h1,h2{
+        text-align: center;
+    }
+</style>
+{% endblock %}

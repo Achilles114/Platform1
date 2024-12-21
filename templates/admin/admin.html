@@ -1,0 +1,70 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>
+        Admin Dashboard
+    </h1>
+    <hr>
+    <h2>
+        Users
+    </h2>
+    <p>
+        
+    </p>
+    <a href="{{url_for('user_list')}}" class="btn btn-outline-primary">
+        
+        List Users
+    </a>
+    <hr>
+    <h2>
+        Campaigns 
+    </h2>
+    <a href="{{url_for('campaign_list')}}" class="btn btn-outline-primary">
+        
+        All Campaigns
+    </a>
+
+    <hr>
+    <h1>User Distribution</h1>
+    <div class="chart-container">
+        <canvas id="userStatsChart"></canvas>
+    </div>
+
+    <script>
+        fetch('/chart_data')
+            .then(response => response.json())
+            .then(data => {
+                const ctx = document.getElementById('userStatsChart').getContext('2d');
+                const userStatsChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            data: data.values,
+                            backgroundColor: ['#ff9999', '#66b3ff'],
+                            borderColor: '#fff',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false, // Allows resizing via CSS
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return tooltipItem.label + ': ' + tooltipItem.raw;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching chart data:', error));
+    </script>
+    
+{% endblock %}

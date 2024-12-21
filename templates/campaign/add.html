@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+{% block title %}
+Add Campaign
+{% endblock %}
+{% block content %}
+    <h1>Add Campaign</h1>
+    <form  action="{{ url_for('add_campaign_post') }}" method="post" class="form">
+        <label for="name" class="form-label">Name:
+            <input type="text" class="form-control" name=name id=name>
+            
+        </label>
+        <label for="description" class="form-label">Description:
+            <input type="text" class="form-control" name="description" id="description">
+        </label>
+        <label for="budget" class="form-label">Budget:
+            <input type="number" class="form-control" name="budget" id="budget">
+        </label>
+        
+        <label for="start-date">Start Date:
+        <input type="date" id="start-date" name="start-date"  required>
+        </label>
+        <br>
+        <label for="end-date">End Date:
+        <input type="date" id="end-date" name="end-date"  required>
+    </label>
+    <br>
+        <div class="visibility">Visibility
+       <label for="public">Public:
+        <input type="radio" id="public" name="visibility" value="public">
+        </label>
+        <label for="private">Private:
+            <input type="radio" id="private" name="visibility" value="private">
+            </label>
+    </div>
+
+
+        <br><br>
+        
+
+        <input type="submit" class="btn btn-success" value="Submit">
+       
+    </form>
+{% endblock %}
+
+{% block style %}
+<style>
+    h1{
+        text-align: center;
+    }
+    .form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .dat{
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
+{% endblock %}

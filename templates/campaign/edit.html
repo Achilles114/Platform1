@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Edit Campaign {{campaign.name}}</h1>
+    <hr>
+    <form  method="post">
+        <label class="form-label" for="name">Campaign Name:</label>
+        <input class="form-control" type="text" name="name" id="name"
+        maxlength="15" value="{{campaign.name}}"/>
+
+        <label class="form-label" for="description">Campaign Description:</label>
+        <textarea name="description" id="description" cols="15" rows="4" maxlength="250" class="form-control">
+            {{campaign.description}}
+        </textarea>
+        <br>
+        <label for="budget" class="form-label">Budget:
+            <input type="number" class="form-control" name="budget" id="budget" value="{{campaign.budget}}">
+        </label><br>
+        <label for="start-date">Start Date:
+            <input type="date" id="start-date" name="start-date" value="{{campaign.start_date}}" >
+            </label>
+            <br><br>
+            <label for="end-date">End Date:
+            <input type="date" id="end-date" name="end-date" value="{{campaign.end_date}}" >
+        </label>
+        <br><br>
+            <div class="visibility">Visibility
+           <label for="public">Public:
+            <input type="radio" id="public" name="visibility" value="{{campaign.visibility}}">
+            </label>
+            <label for="private">Private:
+                <input type="radio" id="private" name="visibility" value="{{campaign.visibility}}">
+                </label><br><br>
+        
+        <button type="submit" class="btn btn-success">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            Edit
+        </button>
+    </form>
+{% endblock %}

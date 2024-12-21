@@ -1,0 +1,62 @@
+
+
+{% block content %}
+<a class="btn btn-success" href="{{url_for('admin')}}">Admin Dashboard</a>
+<h1>List of Users</h1>
+<hr>
+<table class="table">
+<thead>
+    <tr>
+        <th>User ID</th>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Role</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+<tbody>
+{% for user in users %}
+  <tr>
+    <td>{{user.id}}</td>
+    <td>{{user.username}}</td>
+    <td>{{user.name}}</td>
+    {% if user.role == 'I' %}
+    <td>Influencer</td>
+    {% elif user.role == 'S' %}
+    <td>Sponsor</td>
+    {% else %}
+    <td>Admin</td>
+    {% endif %}
+    <td>
+        <div class="action-buttons">
+            <form action="{{url_for('delete_user', user_id=user.id)}}" method="POST" class="action-form">
+                <button 
+                {% if user.is_admin %}
+                    disabled
+                {% endif %}
+                type="submit" class="btn btn-danger">Delete</button>
+            </form>
+            <form action="{{url_for('flag_user', user_id=user.id)}}" method="POST" class="action-form">
+                <button type="submit" class="btn {% if user.flagged %}btn-warning{% else %}btn-secondary{% endif %}">
+                    {% if user.flagged %}Unflag{% else %}Flag{% endif %}
+                </button>
+            </form>
+        </div>
+    </td>
+  </tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}
+
+{% block style %}
+<style>
+    .action-buttons {
+        display: flex;
+        gap: 10px; /* Adjust the gap as needed */
+    }
+    .action-form {
+        margin: 0;
+    }
+</style>
+{% endblock %}

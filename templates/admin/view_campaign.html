@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block content %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Cmapaign</th>
+            <th>Advertisment Name</th>
+            <th>Description</th>
+            <th>Budget</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {% for ad in advertisment %}
+            
+            <tr>
+                <td>{{ad.campaign.name}}</td>
+                <td>{{ad.name}} </td>
+                <td>{{ad.description}} </td>
+                <td>{{ad.budget}}</td>
+                
+                
+            </tr>
+            
+        {% endfor %}
+    </tbody>
+</table>
+<a class="btn btn-success" href="{{url_for('admin')}}">Admin Dashboard</a>
+{% endblock %}

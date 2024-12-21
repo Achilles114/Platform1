@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+
+
+<div class="profilecard">
+    <img class="profilepic"
+    src="" alt="">
+    <div class="profileinfo">
+        <h1>{{user.username}}</h1>
+        <p>{{user.name}}</p>
+    </div>
+</div>
+<form action="{{url_for('profile_post', user_id=user.id)}}" method="post">
+    <label class="form-label" for="username">Username:</label>
+    <input class="form-control" type="username" name="username" id="username" value="{{user.username}}">
+    <label class="form-label" for="password">Current Password:</label>
+    <input class="form-control" type="password" name="password" id="password">
+    <label class="form-label" for="npassword">New Password:</label>
+    <input class="form-control" type="password" name="npassword" id="npassword">
+    <button class="btn btn-primary" type="submit" >Edit</button>
+</form>
+
+<form action="{{url_for('delete_user', user_id=user.id)}}" method="post">
+    <button class="btn btn-danger" type="submit">Delete my account</button>
+</form>
+<br>
+{% if user.role=="I" %}
+    <a href="{{url_for('influencer')}}" class="btn btn-primary">My Dashboard</a>
+{% elif user.role=="S" %}
+    <a href="{{url_for('sponsor')}}" class="btn btn-primary">My Dashboard</a>
+{% endif %}
+{% endblock %}

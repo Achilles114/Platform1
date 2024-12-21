@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h1>Campaigns:</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Sponsor</th>
+            <th>Campaign Name</th>
+            <th>No of Ads</th>
+            <th>Total Budget</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for campaign in campaigns %}
+            <tr>
+                <td>{{campaign.sponsor.name}}</td>
+                <td>{{campaign.name}} </td>
+                <td>{{campaign.advertisment|length}} </td>
+                <td>{{campaign.budget}}</td>
+                <td>
+                    
+                    <a href="{{url_for('admin_view_campaign',campaign_id=campaign.id)}}" class="btn btn-primary">View</a>
+                    
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</table>
+<a class="btn btn-success" href="{{url_for('admin')}}">Admin Dashboard</a>
+{% endblock %}
